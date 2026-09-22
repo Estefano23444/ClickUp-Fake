@@ -1,0 +1,139 @@
+.shell {
+  height: 100vh;
+  width: 100vw;
+}
+
+.app {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+}
+
+.sidebar {
+  width: var(--cu-rail-width);
+  height: 100%;
+  background-color: var(--cu-rail-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.sidebar__logo {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.sidebar__logo-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--cu-radius-btn);
+  background: linear-gradient(135deg, var(--cu-primary-purple), #9f7aea);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 2px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar__item {
+  width: 48px;
+  min-height: 40px;
+  border-radius: var(--cu-radius-btn);
+  border: none;
+  background: transparent;
+  color: var(--cu-rail-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.sidebar__item-icon {
+  width: 28px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.sidebar__item:hover .sidebar__item-icon {
+  background-color: var(--cu-rail-hover-bg);
+  color: #FFFFFF;
+}
+
+.sidebar__label {
+  display: none;
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.sidebar__item--active {
+  color: #FFFFFF;
+}
+
+.sidebar__item--active .sidebar__item-icon {
+  background-color: var(--cu-rail-active-bg);
+  color: var(--cu-rail-text-active);
+}
+
+.sidebar__item--active .sidebar__label {
+  display: block;
+}
+
+.sidebar__bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar__user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--cu-radius-round);
+  background-color: #3b82f6;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Main content area */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}

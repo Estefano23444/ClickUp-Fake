@@ -1,0 +1,168 @@
+/* Quick Create Popover */
+#quick-create {
+  position: fixed;
+  width: 360px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #E5E7EB;
+  z-index: 100;
+  display: none;
+}
+
+#quick-create.is-visible {
+  display: block;
+}
+
+/* Header */
+.quick-create__header {
+  padding: 8px 12px;
+  border-bottom: 1px solid #F0F1F3;
+  position: relative;
+  gap: 6px;
+}
+
+.quick-create__close {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #87909E;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.quick-create__close:hover {
+  color: #1E1F21;
+}
+
+.quick-create__header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--category-color, #7B68EE);
+  border-radius: 8px 8px 0 0;
+}
+
+.quick-create__category {
+  font-size: 12px;
+  color: #87909E;
+  margin: 0;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Body */
+.quick-create__body {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quick-create__input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #1E1F21;
+  font-family: inherit;
+  padding: 4px 0;
+}
+
+.quick-create__input::placeholder {
+  color: #87909E;
+}
+
+.quick-create__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1E1F21;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.quick-create__avatar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background-color: #6BC950;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+}
+
+/* Toolbar */
+.quick-create__toolbar {
+  padding: 6px 12px;
+  border-top: 1px solid #F0F1F3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quick-create__tool-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #6B7280;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quick-create__tool-btn:hover {
+  background-color: #F0F2F5;
+  color: #1E1F21;
+}
+
+.quick-create__tool-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.quick-create__date {
+  font-size: 12px;
+  color: #87909E;
+}
+
+.quick-create__spacer {
+  flex: 1;
+}
+
+.quick-create__save {
+  background-color: #7B68EE;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quick-create__save:hover {
+  background-color: #6A5AE0;
+}

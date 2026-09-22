@@ -1,0 +1,91 @@
+:root {
+  /* Colors */
+  --cu-primary-purple: #7B68EE;
+  --cu-app-bg: #FAFBFC;
+  --cu-card-surface: #FFFFFF;
+  --cu-sidebar-bg: #F7F8FA;
+  --cu-hover-bg: #F0F2F5;
+  --cu-active-bg: #ECECEC;
+  --cu-border: #E5E7EB;
+  --cu-border-subtle: #F0F1F3;
+  
+  --cu-text-primary: #1E1F21;
+  --cu-text-secondary: #6B7280;
+  --cu-text-muted: #87909E;
+  
+  --cu-today-highlight: #F5F3FF;
+  --cu-active-purple-tint: rgba(123, 104, 238, 0.1);
+
+  /* Dark icon rail (main app sidebar) */
+  --cu-rail-bg: #0A0A0A;
+  --cu-rail-hover-bg: rgba(255, 255, 255, 0.08);
+  --cu-rail-active-bg: #FFFFFF;
+  --cu-rail-text: rgba(255, 255, 255, 0.62);
+  --cu-rail-text-active: #1E1F21;
+  --cu-rail-width: 60px;
+
+  /* Global top bar */
+  --cu-topbar-height: 44px;
+
+  /* Note Category Colors */
+  --cu-cat-1: #6BC950;
+  --cu-cat-2: #F2C94C;
+  --cu-cat-3: #FC6D2D;
+  --cu-cat-4: #F2836B;
+  --cu-cat-5: #E91E63;
+  --cu-cat-6: #7B68EE;
+  --cu-cat-7: #0091FF;
+  --cu-cat-8: #00B5D8;
+  --cu-cat-9: #84CC16;
+  --cu-cat-10: #8D6E63;
+  --cu-cat-11: #F50000;
+  --cu-cat-12: #78909C;
+
+  /* Typography */
+  --cu-font-body: 'Inter', sans-serif;
+  --cu-font-title: 'Plus Jakarta Sans', sans-serif;
+
+  /* Spacing */
+  --cu-spacing-1: 4px;
+  --cu-spacing-2: 8px;
+  --cu-spacing-3: 12px;
+  --cu-spacing-4: 16px;
+  --cu-spacing-6: 24px;
+
+  /* Border Radius */
+  --cu-radius-bar: 4px;
+  --cu-radius-btn: 6px;
+  --cu-radius-popover: 8px;
+  --cu-radius-modal: 12px;
+  --cu-radius-round: 50%;
+
+  /* Shadows */
+  --cu-shadow-1: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --cu-shadow-2: 0 4px 14px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.06);
+  --cu-shadow-3: 0 20px 25px -5px rgba(0,0,0,0.15), 0 10px 10px -5px rgba(0,0,0,0.05);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--cu-font-body);
+  background-color: var(--cu-app-bg);
+  color: var(--cu-text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: hidden; /* App-like layout */
+}
+
+/* Utilities */
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-1 { flex: 1; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.relative { position: relative; }
+.hidden { display: none !important; }
