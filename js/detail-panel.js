@@ -30,6 +30,93 @@ const DetailPanel = (function() {
     trash: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>'
   };
 
+  // The description field is contenteditable and its saved value is synced to
+  // every connected browser via Firebase, so anything one person pastes/types
+  // there gets rendered as raw HTML for everyone else. Keep only a small,
+  // harmless tag/attribute allowlist and strip everything else (event handler
+  // attributes, javascript: URLs, script/style tags, etc.) before it's saved.
+  const DESC_ALLOWED_TAGS = new Set(['B', 'STRONG', 'I', 'EM', 'U', 'BR', 'P', 'DIV', 'SPAN', 'A', 'IMG', 'UL', 'OL', 'LI']);
+
+  function sanitizeDescriptionHtml(html) {
+    const container = document.createElement('div');
+    container.innerHTML = html;
+
+    function clean(parent) {
+      Array.from(parent.childNodes).forEach(function(child) {
+        if (child.nodeType === Node.ELEMENT_NODE) {
+          if (!DESC_ALLOWED_TAGS.has(child.tagName)) {
+            parent.replaceChild(document.createTextNode(child.textContent), child);
+            return;
+          }
+          Array.from(child.attributes).forEach(function(attr) {
+            const name = attr.name.toLowerCase();
+            if (child.tagName === 'A' && name === 'href') {
+              if (!/^(https?:|mailto:)/i.test(attr.value.trim())) child.removeAttribute(attr.name);
+            } else if (child.tagName === 'IMG' && name === 'src') {
+              if (!/^(https?:|data:image\/)/i.test(attr.value.trim())) child.removeAttribute(attr.name);
+            } else {
+              child.removeAttribute(attr.name);
+            }
+          });
+          if (child.tagName === 'A') {
+            child.setAttribute('target', '_blank');
+            child.setAttribute('rel', 'noopener noreferrer');
+          }
+          if (child.tagName === 'IMG') {
+            child.style.maxWidth = '100%';
+          }
+          clean(child);
+        } else if (child.nodeType !== Node.TEXT_NODE) {
+          parent.removeChild(child);
+        }
+      });
+    }
+
+    clean(container);
+    return container.innerHTML;
+  }
+
+  // Contenteditable never auto-converts a typed/pasted bare URL into a real
+  // <a>, so plain-text links the user types would otherwise just sit there
+  // inert. Wrap them in real anchors (skipping text that's already inside one).
+  function autoLinkify(container) {
+    const urlPattern = /(https?:\/\/[^\s<]+)|(\bwww\.[^\s<]+)/gi;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+    const targets = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      if (node.parentElement && node.parentElement.closest('a')) continue;
+      urlPattern.lastIndex = 0;
+      if (urlPattern.test(node.nodeValue)) targets.push(node);
+    }
+    targets.forEach(function(node) {
+      const frag = document.createDocumentFragment();
+      let lastIndex = 0;
+      urlPattern.lastIndex = 0;
+      let match;
+      while ((match = urlPattern.exec(node.nodeValue))) {
+        frag.appendChild(document.createTextNode(node.nodeValue.slice(lastIndex, match.index)));
+        const a = document.createElement('a');
+        a.href = match[0].startsWith('http') ? match[0] : 'https://' + match[0];
+        a.textContent = match[0];
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        frag.appendChild(a);
+        lastIndex = match.index + match[0].length;
+      }
+      frag.appendChild(document.createTextNode(node.nodeValue.slice(lastIndex)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function processDescriptionHtml(rawHtml) {
+    const clean = sanitizeDescriptionHtml(rawHtml);
+    const container = document.createElement('div');
+    container.innerHTML = clean;
+    autoLinkify(container);
+    return container.innerHTML;
+  }
+
   function init() {
     const overlay = document.getElementById('detail-overlay');
     if (!overlay) return;
@@ -169,7 +256,7 @@ const DetailPanel = (function() {
 
     html += '    <div class="detail-modal__collapse">' + ICONS.close + ' Contraer campos vacíos</div>';
 
-    html += '    <div class="detail-modal__description" contenteditable="true" data-placeholder="Añade una descripción o escribe con ✨ IA">' + (note.description || '') + '</div>';
+    html += '    <div class="detail-modal__description" contenteditable="true" data-placeholder="Añade una descripción o escribe con ✨ IA">' + sanitizeDescriptionHtml(note.description || '') + '</div>';
 
     html += '    <div class="detail-modal__custom-fields">';
     html += '      <div class="detail-modal__cf-header" id="detail-cf-toggle">' + ICONS.chevronDown + ' <span>Campos</span> <span class="detail-modal__cf-warn">' + ICONS.warn + '</span></div>';
@@ -249,7 +336,18 @@ const DetailPanel = (function() {
     const descEl = panel.querySelector('.detail-modal__description');
     if (descEl) {
       descEl.addEventListener('blur', function() {
-        NotesStore.update(note.id, { description: descEl.textContent });
+        const finalHtml = processDescriptionHtml(descEl.innerHTML);
+        descEl.innerHTML = finalHtml;
+        NotesStore.update(note.id, { description: finalHtml });
+      });
+      // contenteditable swallows normal link clicks (it just places the
+      // caret), so links pasted/typed here would otherwise be dead.
+      descEl.addEventListener('mousedown', function(e) {
+        const link = e.target.closest('a');
+        if (link && descEl.contains(link)) {
+          e.preventDefault();
+          window.open(link.href, '_blank', 'noopener');
+        }
       });
     }
   }
