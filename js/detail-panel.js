@@ -241,7 +241,7 @@ const DetailPanel = (function() {
 
     html += '    <div class="detail-modal__type"><span class="detail-modal__type-dot" style="background:' + note.color + '"></span><span>' + (note.taskType || 'Tarea') + '</span>' + ICONS.chevronDown + '</div>';
     html += '    <h1 class="detail-modal__title" contenteditable="true">' + note.title + '</h1>';
-    html += '    <div class="detail-modal__ai-prompt"><span>🧩</span> Pídele a Brain² un <u>presentación</u>, <u>documento</u> o <u>prototipo</u></div>';
+    html += '    <div class="detail-modal__ai-prompt"><span>🧩</span><span>Pídele a Brain² un <u>presentación</u>, <u>documento</u> o <u>prototipo</u></span></div>';
 
     html += '    <div class="detail-fields">';
     html += fieldRow('Estado', '<span class="detail-status-chip" style="background:' + statusColor(note.status) + '">' + note.status + '<span class="detail-status-chip__arrow">' + ICONS.chevronDown + '</span></span><button class="detail-status-check">' + ICONS.check + '</button>');

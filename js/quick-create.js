@@ -45,15 +45,22 @@ const QuickCreate = (function() {
     }
 
     qc.style.display = 'block';
-    
-    if (anchorRect) {
+
+    // Below this width there's no sensible place to anchor a 360px popover
+    // next to the tapped cell without it running off-screen — center it
+    // like a small modal instead, same as when there's no anchor at all.
+    const canAnchor = anchorRect && window.innerWidth > 640;
+
+    if (canAnchor) {
       let top = anchorRect.top + window.scrollY + 20;
       let left = anchorRect.left + window.scrollX;
-      
+
       if (left + 360 > window.innerWidth) left = window.innerWidth - 380;
-      
+      left = Math.max(8, left);
+
       qc.style.top = top + 'px';
       qc.style.left = left + 'px';
+      qc.style.transform = '';
     } else {
       qc.style.top = '50%';
       qc.style.left = '50%';

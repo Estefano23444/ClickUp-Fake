@@ -5,6 +5,26 @@
   border-bottom: 1px solid var(--cu-border);
   padding: 0 12px;
   gap: 16px;
+  position: relative;
+  z-index: 170;
+}
+
+.topbar__menu-btn {
+  display: none;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--cu-text-primary);
+  border-radius: var(--cu-radius-btn);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.topbar__menu-btn:hover {
+  background-color: var(--cu-hover-bg);
 }
 
 .topbar__workspace {

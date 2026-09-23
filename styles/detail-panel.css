@@ -246,7 +246,7 @@
 /* AI prompt row */
 .detail-modal__ai-prompt {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   background-color: var(--cu-active-purple-tint);
   padding: 10px 14px;

@@ -12,9 +12,28 @@ const Sidebar = (function() {
            siblings.forEach(s => s.classList.remove('sidebar__item--active'));
            this.classList.add('sidebar__item--active');
         }
+        // On mobile the sidebar/panel are an overlay drawer — picking
+        // something in it should close it, same as any mobile nav menu.
+        closeMobileNav();
       });
     });
+
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const backdrop = document.getElementById('mobile-backdrop');
+    if (menuBtn) {
+      menuBtn.addEventListener('click', function() {
+        document.body.classList.toggle('mobile-nav-open');
+      });
+    }
+    if (backdrop) {
+      backdrop.addEventListener('click', closeMobileNav);
+    }
   }
+
+  function closeMobileNav() {
+    document.body.classList.remove('mobile-nav-open');
+  }
+
   return { init };
 })();
 document.addEventListener('DOMContentLoaded', Sidebar.init);
