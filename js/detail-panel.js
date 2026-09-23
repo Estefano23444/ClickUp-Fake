@@ -335,6 +335,31 @@ const DetailPanel = (function() {
 
     const descEl = panel.querySelector('.detail-modal__description');
     if (descEl) {
+      // The browser's default paste-into-contenteditable handling for an
+      // image is inconsistent: it can insert a data: URI (persists fine) or a
+      // blob: URL (only valid for this tab's lifetime — it silently breaks on
+      // the very next reload, and our sanitizer wouldn't allow it through
+      // anyway). Intercept image paste ourselves and always convert to a
+      // base64 data: URI so it actually survives a save + reload.
+      descEl.addEventListener('paste', function(e) {
+        const items = (e.clipboardData || window.clipboardData) ? (e.clipboardData || window.clipboardData).items : null;
+        if (!items) return;
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          if (item.type && item.type.indexOf('image') === 0) {
+            const file = item.getAsFile();
+            if (!file) continue;
+            e.preventDefault();
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+              document.execCommand('insertHTML', false, '<img src="' + ev.target.result + '">');
+            };
+            reader.readAsDataURL(file);
+            return;
+          }
+        }
+      });
+
       descEl.addEventListener('blur', function() {
         const finalHtml = processDescriptionHtml(descEl.innerHTML);
         descEl.innerHTML = finalHtml;
