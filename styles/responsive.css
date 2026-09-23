@@ -91,6 +91,13 @@
     width: 100%;
   }
 
+  /* The panel is a full drawer overlay on mobile, toggled by the hamburger
+     button — the width-collapse toggle doesn't make sense here and would
+     visually collide with it. */
+  .panel-toggle {
+    display: none;
+  }
+
   /* ---- Header ---- */
   .header__title {
     font-size: 13px;

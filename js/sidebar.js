@@ -28,10 +28,33 @@ const Sidebar = (function() {
     if (backdrop) {
       backdrop.addEventListener('click', closeMobileNav);
     }
+
+    initPanelToggle();
   }
 
   function closeMobileNav() {
     document.body.classList.remove('mobile-nav-open');
+  }
+
+  const PANEL_COLLAPSED_KEY = 'clickup_panel_collapsed';
+
+  function initPanelToggle() {
+    const panel = document.getElementById('panel');
+    const toggleBtn = document.getElementById('panel-toggle');
+    if (!panel || !toggleBtn) return;
+
+    function setCollapsed(collapsed) {
+      panel.classList.toggle('panel--collapsed', collapsed);
+      toggleBtn.classList.toggle('is-collapsed', collapsed);
+      toggleBtn.title = collapsed ? 'Expandir panel' : 'Colapsar panel';
+      localStorage.setItem(PANEL_COLLAPSED_KEY, collapsed ? '1' : '0');
+    }
+
+    setCollapsed(localStorage.getItem(PANEL_COLLAPSED_KEY) === '1');
+
+    toggleBtn.addEventListener('click', function() {
+      setCollapsed(!panel.classList.contains('panel--collapsed'));
+    });
   }
 
   return { init };

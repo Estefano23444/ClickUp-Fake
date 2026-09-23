@@ -1,10 +1,49 @@
 .panel {
   width: 240px;
+  min-width: 0;
   height: 100%;
   background-color: var(--cu-card-surface);
   border-right: 1px solid var(--cu-border);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+.panel--collapsed {
+  width: 0;
+  border-right: none;
+}
+
+/* Thin always-visible strip between the panel and the calendar that
+   collapses/expands it — independent of the mobile drawer, so it also helps
+   on a landscape phone/tablet where the panel is wide but the screen isn't. */
+.panel-toggle {
+  width: 14px;
+  flex-shrink: 0;
+  height: 100%;
+  border: none;
+  border-right: 1px solid var(--cu-border);
+  background-color: var(--cu-card-surface);
+  color: var(--cu-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.panel-toggle:hover {
+  background-color: var(--cu-hover-bg);
+  color: var(--cu-primary-purple);
+}
+
+.panel-toggle svg {
+  transition: transform 0.2s ease;
+}
+
+.panel-toggle.is-collapsed svg {
+  transform: rotate(180deg);
 }
 
 .panel__header {
